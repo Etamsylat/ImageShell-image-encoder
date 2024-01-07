@@ -1,12 +1,8 @@
 ﻿using AForge.Imaging.Filters;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO;
@@ -43,7 +39,7 @@ namespace Shuffle
 
         private void fuckItUpBtn_Click(object sender, EventArgs e)
         {
-            image = ScaleImage(image, 996, 588);
+            
             int seed = GetValidSeed(true);
             int encryptLvl = GetValidEncryptLvl(true);
             for (int i = 0; i < encryptLvl; i++)
@@ -52,7 +48,7 @@ namespace Shuffle
             }
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
-            pictureBox1.Image = image;
+            pictureBox1.Image = ScaleImage(image, 996, 588);
         }
 
         private Bitmap ScaleImage(Bitmap originalImage, int maxWidth, int maxHeight)
@@ -195,9 +191,10 @@ namespace Shuffle
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = "All Files|*.*";
-                saveFileDialog.Title = "Save Image As";
+                saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp|All Files|*.*";
+                saveFileDialog.Title = "Save an Image File";               
                 saveFileDialog.FileName = "output_image"; // Default file name
+                
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -205,24 +202,19 @@ namespace Shuffle
                     string filePath = saveFileDialog.FileName;
 
                     // Save the image to the selected file path
-                    image.Save(filePath + ".jpg");
+                    image.Save(filePath, ImageFormat.Png);
 
 
 
                     // Create a new text file and write to it
-                    using (StreamWriter writer = new StreamWriter(filePath + ".txt"))
-                    {
-                        foreach (int value in seed)
-                        {
-                            // Write each integer to a new line in the file
-                            writer.WriteLine(value);
-                        }
-                    }
+                    
                     MessageBox.Show("Image saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
             }
         }
+
+       
 
         private void unfuckBtn_Click(object sender, EventArgs e)
         {
@@ -239,7 +231,7 @@ namespace Shuffle
             }
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
-            pictureBox1.Image = image;
+            pictureBox1.Image = ScaleImage(image, 996, 588);
         }
 
         private Bitmap Unshuffle(Bitmap image, int offset,int seed)
