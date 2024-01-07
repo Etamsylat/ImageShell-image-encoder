@@ -1,0 +1,275 @@
+﻿using AForge.Imaging.Filters;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
+
+namespace Shuffle
+{
+    public partial class Form1 : Form
+    {
+        List<int> seed = new List<int>();
+        Bitmap image = new Bitmap(100, 100);
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp|All Files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1; // Default filter is the first one in the list
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Get the selected file path
+                image = new Bitmap(openFileDialog.FileName);
+                pictureBox1.Image = ScaleImage(image, 996, 588);
+            }
+
+        }
+
+        private void fuckItUpBtn_Click(object sender, EventArgs e)
+        {
+            image = ScaleImage(image, 996, 588);
+            int seed = GetValidSeed(true);
+            int encryptLvl = GetValidEncryptLvl(true);
+            for (int i = 0; i < encryptLvl; i++)
+            {
+                image = Shuffle(image, i,seed);
+            }
+            seedTxt.Text = seed.ToString();
+            encryptionLevelTxt.Text = encryptLvl.ToString();
+            pictureBox1.Image = image;
+        }
+
+        private Bitmap ScaleImage(Bitmap originalImage, int maxWidth, int maxHeight)
+        {
+            // Calculate the scaling factor for width and height
+            double widthScale = (double)maxWidth / originalImage.Width;
+            double heightScale = (double)maxHeight / originalImage.Height;
+
+            // Choose the smaller scaling factor to ensure that the image fits within the specified dimensions
+            double scale = Math.Min(widthScale, heightScale);
+
+            // Create an instance of the ResizeBilinear filter with the scaled dimensions
+            ResizeBilinear filter = new ResizeBilinear((int)(originalImage.Width * scale), (int)(originalImage.Height * scale));
+
+            // Apply the filter to the original image
+            Bitmap scaledImage = filter.Apply(originalImage);
+
+            return scaledImage;
+        }
+
+        private Bitmap Shuffle(Bitmap image,int offset,int seed)
+        {
+            List<Color> color = new List<Color>();
+
+            // Store the original pixel colors in a list
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    color.Add(image.GetPixel(x, y));
+                }
+            }
+
+            // Shuffle the colors
+            ShuffleList(color,Generate(color.Count,seed+offset));
+
+            // Update the image with the shuffled colors
+            int index = 0;
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    image.SetPixel(x, y, color[index++]);
+                }
+            }
+
+            return image;
+        }
+
+        private int GetValidSeed(bool message)
+        {
+            int parsedSeed;
+            if (int.TryParse(seedTxt.Text, out parsedSeed) && parsedSeed>=0&&parsedSeed+GetValidEncryptLvl(false)<= 2147483647)
+            {
+                return parsedSeed;
+            }
+            else
+            {
+                Random rnd = new Random();
+                parsedSeed = rnd.Next(2147483647-GetValidEncryptLvl(false));
+                if (message)
+                {
+                    MessageBox.Show($"Invalid seed input. Used random seed: {parsedSeed}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                // You might want to handle this case more appropriately, like returning a default seed or prompting the user for a valid input.
+                return parsedSeed; // Default seed in case of invalid input
+            }
+        }
+
+        private int GetValidEncryptLvl(bool message)
+        {
+            int parsedSeed;
+            if (int.TryParse(encryptionLevelTxt.Text, out parsedSeed) && parsedSeed > 0)
+            {
+                return parsedSeed;
+            }
+            else
+            {
+                if (message) { MessageBox.Show("Invalid encryption level input. Used default encryption level: 5", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                // You might want to handle this case more appropriately, like returning a default seed or prompting the user for a valid input.
+                return 5; // Default seed in case of invalid input
+            }
+        }
+
+        public static List<int> Generate(int length, int seed)
+        {
+            Random random = new Random(seed);
+            List<int> indexes = new List<int>();
+            for (int i = 0; i < length; i++)
+            {
+                indexes.Add(random.Next(length));
+            }
+            return indexes;
+        }
+
+        public static List<Color> ShuffleList(List<Color> list, List<int> indexes)
+        {
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                Color temp = list[1];
+                list[1] = list[indexes[i]];
+                list[indexes[i]] = temp;
+            }
+            return list;
+        }
+
+        public static List<Color> Deshuffle(List<Color> list, List<int> indexes)
+        {
+            indexes.Reverse();
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                Color temp = list[1];
+                list[1] = list[indexes[i]];
+                list[indexes[i]] = temp;
+            }
+            return list;
+        }
+
+        private string GetFilePath()
+        {
+            // Open SaveFileDialog
+            using (OpenFileDialog fileDialog = new OpenFileDialog())
+            {
+                fileDialog.Filter = "All Files|*.*";
+                fileDialog.Title = "Open File";
+
+                // Check if the user clicked OK in the dialog
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Return the selected file path
+                    return fileDialog.FileName;
+                }
+            }
+
+            // Return null if the user cancels the operation
+            return null;
+        }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "All Files|*.*";
+                saveFileDialog.Title = "Save Image As";
+                saveFileDialog.FileName = "output_image"; // Default file name
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the selected file path
+                    string filePath = saveFileDialog.FileName;
+
+                    // Save the image to the selected file path
+                    image.Save(filePath + ".jpg");
+
+
+
+                    // Create a new text file and write to it
+                    using (StreamWriter writer = new StreamWriter(filePath + ".txt"))
+                    {
+                        foreach (int value in seed)
+                        {
+                            // Write each integer to a new line in the file
+                            writer.WriteLine(value);
+                        }
+                    }
+                    MessageBox.Show("Image saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            }
+        }
+
+        private void unfuckBtn_Click(object sender, EventArgs e)
+        {
+            int seed = GetValidSeed(false);
+            if (seed.ToString()!=seedTxt.Text)
+            {
+                MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int encryptLvl = GetValidEncryptLvl(true);
+            for (int i = encryptLvl-1; i >=0; i--)
+            {
+                image = Unshuffle(image, i,seed);
+            }
+            seedTxt.Text = seed.ToString();
+            encryptionLevelTxt.Text = encryptLvl.ToString();
+            pictureBox1.Image = image;
+        }
+
+        private Bitmap Unshuffle(Bitmap image, int offset,int seed)
+        {
+            List<Color> color = new List<Color>();
+
+            // Store the shuffled pixel colors in a list
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    color.Add(image.GetPixel(x, y));
+                }
+            }
+
+            
+            // Unshuffle the colors
+            Deshuffle(color, Generate(color.Count,seed+offset));
+
+            // Update the image with the unshuffled colors
+            int index = 0;
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    image.SetPixel(x, y, color[index++]);
+                }
+            }
+
+            return image;
+        }
+    }
+}
