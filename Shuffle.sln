@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuffle", "Shuffle\Shuffle.csproj", "{1EA4CBF4-B487-4F9B-B4EA-5A0AB5296BEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageEncryption", "Shuffle\ImageEncryption.csproj", "{1EA4CBF4-B487-4F9B-B4EA-5A0AB5296BEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

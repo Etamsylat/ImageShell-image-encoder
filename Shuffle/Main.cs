@@ -1,4 +1,5 @@
 ﻿using AForge.Imaging.Filters;
+using ImageEncoding;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,11 +8,11 @@ using System.Windows.Forms;
 
 namespace Shuffle
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         List<int> seed = new List<int>();
         Bitmap image = new Bitmap(100, 100);
-        public Form1()
+        public Main()
         {
             InitializeComponent();
         }
@@ -35,7 +36,7 @@ namespace Shuffle
 
         }
 
-        private void fuckItUpBtn_Click(object sender, EventArgs e)
+        private void fkItUpBtn_Click(object sender, EventArgs e)
         {
 
             int seed = GetValidSeed(true);
@@ -165,7 +166,23 @@ namespace Shuffle
             return list;
         }
 
-        
+        private void Unfk()
+        {
+            int seed = GetValidSeed(false);
+            if (seed.ToString() != seedTxt.Text)
+            {
+                MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int encryptLvl = GetValidEncryptLvl(true);
+            for (int i = encryptLvl - 1; i >= 0; i--)
+            {
+                image = Unshuffle(image, i, seed);
+            }
+            seedTxt.Text = seed.ToString();
+            encryptionLevelTxt.Text = encryptLvl.ToString();
+            pictureBox1.Image = ScaleImage(image, 996, 588);
+        }
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
@@ -194,22 +211,9 @@ namespace Shuffle
             }
         }
 
-        private void unfuckBtn_Click(object sender, EventArgs e)
+        private void unfkBtn_Click(object sender, EventArgs e)
         {
-            int seed = GetValidSeed(false);
-            if (seed.ToString() != seedTxt.Text)
-            {
-                MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            int encryptLvl = GetValidEncryptLvl(true);
-            for (int i = encryptLvl - 1; i >= 0; i--)
-            {
-                image = Unshuffle(image, i, seed);
-            }
-            seedTxt.Text = seed.ToString();
-            encryptionLevelTxt.Text = encryptLvl.ToString();
-            pictureBox1.Image = ScaleImage(image, 996, 588);
+            Unfk();
         }
 
         private Bitmap Unshuffle(Bitmap image, int offset, int seed)
@@ -240,6 +244,12 @@ namespace Shuffle
             }
 
             return image;
+        }
+
+        private void sequencerBtn_Click(object sender, EventArgs e)
+        {
+            SequencerForm myForm = new SequencerForm();
+            myForm.Show();
         }
     }
 }
