@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.IO;
 
 namespace Shuffle
 {
@@ -39,12 +37,12 @@ namespace Shuffle
 
         private void fuckItUpBtn_Click(object sender, EventArgs e)
         {
-            
+
             int seed = GetValidSeed(true);
             int encryptLvl = GetValidEncryptLvl(true);
             for (int i = 0; i < encryptLvl; i++)
             {
-                image = Shuffle(image, i,seed);
+                image = Shuffle(image, i, seed);
             }
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
@@ -69,7 +67,7 @@ namespace Shuffle
             return scaledImage;
         }
 
-        private Bitmap Shuffle(Bitmap image,int offset,int seed)
+        private Bitmap Shuffle(Bitmap image, int offset, int seed)
         {
             List<Color> color = new List<Color>();
 
@@ -83,7 +81,7 @@ namespace Shuffle
             }
 
             // Shuffle the colors
-            ShuffleList(color,Generate(color.Count,seed+offset));
+            ShuffleList(color, Generate(color.Count, seed + offset));
 
             // Update the image with the shuffled colors
             int index = 0;
@@ -101,14 +99,14 @@ namespace Shuffle
         private int GetValidSeed(bool message)
         {
             int parsedSeed;
-            if (int.TryParse(seedTxt.Text, out parsedSeed) && parsedSeed>=0&&parsedSeed+GetValidEncryptLvl(false)<= 2147483647)
+            if (int.TryParse(seedTxt.Text, out parsedSeed) && parsedSeed >= 0 && parsedSeed + GetValidEncryptLvl(false) <= 2147483647)
             {
                 return parsedSeed;
             }
             else
             {
                 Random rnd = new Random();
-                parsedSeed = rnd.Next(2147483647-GetValidEncryptLvl(false));
+                parsedSeed = rnd.Next(2147483647 - GetValidEncryptLvl(false));
                 if (message)
                 {
                     MessageBox.Show($"Invalid seed input. Used random seed: {parsedSeed}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -167,34 +165,16 @@ namespace Shuffle
             return list;
         }
 
-        private string GetFilePath()
-        {
-            // Open SaveFileDialog
-            using (OpenFileDialog fileDialog = new OpenFileDialog())
-            {
-                fileDialog.Filter = "All Files|*.*";
-                fileDialog.Title = "Open File";
-
-                // Check if the user clicked OK in the dialog
-                if (fileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Return the selected file path
-                    return fileDialog.FileName;
-                }
-            }
-
-            // Return null if the user cancels the operation
-            return null;
-        }
+        
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp|All Files|*.*";
-                saveFileDialog.Title = "Save an Image File";               
+                saveFileDialog.Title = "Save an Image File";
                 saveFileDialog.FileName = "output_image"; // Default file name
-                
+
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -207,34 +187,32 @@ namespace Shuffle
 
 
                     // Create a new text file and write to it
-                    
+
                     MessageBox.Show("Image saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
             }
         }
 
-       
-
         private void unfuckBtn_Click(object sender, EventArgs e)
         {
             int seed = GetValidSeed(false);
-            if (seed.ToString()!=seedTxt.Text)
+            if (seed.ToString() != seedTxt.Text)
             {
                 MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             int encryptLvl = GetValidEncryptLvl(true);
-            for (int i = encryptLvl-1; i >=0; i--)
+            for (int i = encryptLvl - 1; i >= 0; i--)
             {
-                image = Unshuffle(image, i,seed);
+                image = Unshuffle(image, i, seed);
             }
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
             pictureBox1.Image = ScaleImage(image, 996, 588);
         }
 
-        private Bitmap Unshuffle(Bitmap image, int offset,int seed)
+        private Bitmap Unshuffle(Bitmap image, int offset, int seed)
         {
             List<Color> color = new List<Color>();
 
@@ -247,9 +225,9 @@ namespace Shuffle
                 }
             }
 
-            
+
             // Unshuffle the colors
-            Deshuffle(color, Generate(color.Count,seed+offset));
+            Deshuffle(color, Generate(color.Count, seed + offset));
 
             // Update the image with the unshuffled colors
             int index = 0;
