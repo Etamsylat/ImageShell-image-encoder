@@ -41,10 +41,9 @@ namespace Shuffle
 
             int seed = GetValidSeed(true);
             int encryptLvl = GetValidEncryptLvl(true);
-            for (int i = 0; i < encryptLvl; i++)
-            {
-                image = Shuffle(image, i, seed);
-            }
+                        
+            image = Shuffle(image,seed,encryptLvl);
+            
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
             pictureBox1.Image = ScaleImage(image, 996, 588);
@@ -68,32 +67,37 @@ namespace Shuffle
             return scaledImage;
         }
 
-        private Bitmap Shuffle(Bitmap image, int offset, int seed)
+        private Bitmap Shuffle(Bitmap image, int seed, int encryptLvl)
         {
-            List<Color> color = new List<Color>();
+            
 
-            // Store the original pixel colors in a list
-            for (int x = 0; x < image.Width; x++)
+            for (int i = 0; i < encryptLvl; i++) 
             {
-                for (int y = 0; y < image.Height; y++)
+                List<Color> color = new List<Color>();
+                // Store the original pixel colors in a list
+                for (int x = 0; x < image.Width; x++)
                 {
-                    color.Add(image.GetPixel(x, y));
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        color.Add(image.GetPixel(x, y));
+                    }
+                }
+
+                // Shuffle the colors
+                ShuffleList(color, Generate(color.Count, seed + i));
+
+                // Update the image with the shuffled colors
+                int index = 0;
+                for (int x = 0; x < image.Width; x++)
+                {
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        image.SetPixel(x, y, color[index++]);
+                    }
                 }
             }
 
-            // Shuffle the colors
-            ShuffleList(color, Generate(color.Count, seed + offset));
-
-            // Update the image with the shuffled colors
-            int index = 0;
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    image.SetPixel(x, y, color[index++]);
-                }
-            }
-
+            
             return image;
         }
 
