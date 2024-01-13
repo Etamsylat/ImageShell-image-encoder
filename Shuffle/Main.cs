@@ -151,8 +151,8 @@ namespace Shuffle
         {
             for (int i = 0; i < indexes.Count; i++)
             {
-                Color temp = list[1];
-                list[1] = list[indexes[i]];
+                Color temp = list[i];
+                list[i] = list[indexes[i]];
                 list[indexes[i]] = temp;
             }
             return list;
@@ -160,11 +160,11 @@ namespace Shuffle
 
         public static List<Color> Deshuffle(List<Color> list, List<int> indexes)
         {
-            indexes.Reverse();
-            for (int i = 0; i < indexes.Count; i++)
+            
+            for (int i = indexes.Count-1; i >=0; i--)
             {
-                Color temp = list[1];
-                list[1] = list[indexes[i]];
+                Color temp = list[i];
+                list[i] = list[indexes[i]];
                 list[indexes[i]] = temp;
             }
             return list;

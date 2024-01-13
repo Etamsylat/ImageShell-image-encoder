@@ -54,7 +54,7 @@
             // 
             // fileGetBtn
             // 
-            this.fileGetBtn.Location = new System.Drawing.Point(33, 166);
+            this.fileGetBtn.Location = new System.Drawing.Point(33, 213);
             this.fileGetBtn.Name = "fileGetBtn";
             this.fileGetBtn.Size = new System.Drawing.Size(89, 57);
             this.fileGetBtn.TabIndex = 1;
@@ -69,7 +69,7 @@
             // 
             // fkItUpBtn
             // 
-            this.fkItUpBtn.Location = new System.Drawing.Point(33, 348);
+            this.fkItUpBtn.Location = new System.Drawing.Point(33, 402);
             this.fkItUpBtn.Name = "fkItUpBtn";
             this.fkItUpBtn.Size = new System.Drawing.Size(89, 45);
             this.fkItUpBtn.TabIndex = 2;
@@ -79,7 +79,7 @@
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(33, 450);
+            this.saveBtn.Location = new System.Drawing.Point(33, 513);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(89, 53);
             this.saveBtn.TabIndex = 3;
@@ -89,7 +89,7 @@
             // 
             // unfkBtn
             // 
-            this.unfkBtn.Location = new System.Drawing.Point(33, 399);
+            this.unfkBtn.Location = new System.Drawing.Point(33, 462);
             this.unfkBtn.Name = "unfkBtn";
             this.unfkBtn.Size = new System.Drawing.Size(89, 45);
             this.unfkBtn.TabIndex = 4;
@@ -113,7 +113,7 @@
             // 
             // sequencerBtn
             // 
-            this.sequencerBtn.Location = new System.Drawing.Point(33, 241);
+            this.sequencerBtn.Location = new System.Drawing.Point(33, 286);
             this.sequencerBtn.Name = "sequencerBtn";
             this.sequencerBtn.Size = new System.Drawing.Size(89, 42);
             this.sequencerBtn.TabIndex = 7;
@@ -123,7 +123,7 @@
             // 
             // unfkSequenceBtn
             // 
-            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 289);
+            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 348);
             this.unfkSequenceBtn.Name = "unfkSequenceBtn";
             this.unfkSequenceBtn.Size = new System.Drawing.Size(89, 42);
             this.unfkSequenceBtn.TabIndex = 9;
@@ -146,7 +146,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1192, 742);
+            this.ClientSize = new System.Drawing.Size(1192, 614);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.unfkSequenceBtn);
             this.Controls.Add(this.sequencerBtn);
