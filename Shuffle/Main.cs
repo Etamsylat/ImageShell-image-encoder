@@ -10,7 +10,9 @@ namespace Shuffle
 {
     public partial class Main : Form
     {
-        List<int> seed = new List<int>();
+        
+        List<int> seeds = new List<int>();
+        List<int> encryptLvls = new List<int>();
         Bitmap image = new Bitmap(100, 100);
         public Main()
         {
@@ -42,11 +44,9 @@ namespace Shuffle
             int seed = GetValidSeed(true);
             int encryptLvl = GetValidEncryptLvl(true);
                         
-            image = Shuffle(image,seed,encryptLvl);
-            
-            seedTxt.Text = seed.ToString();
-            encryptionLevelTxt.Text = encryptLvl.ToString();
-            pictureBox1.Image = ScaleImage(image, 996, 588);
+            image = Shuffle(seed,encryptLvl);
+
+            Display(seed, encryptLvl);
         }
 
         private Bitmap ScaleImage(Bitmap originalImage, int maxWidth, int maxHeight)
@@ -67,7 +67,7 @@ namespace Shuffle
             return scaledImage;
         }
 
-        private Bitmap Shuffle(Bitmap image, int seed, int encryptLvl)
+        private Bitmap Shuffle( int seed, int encryptLvl)
         {
             
 
@@ -170,22 +170,14 @@ namespace Shuffle
             return list;
         }
 
-        private void Unfk()
-        {
-            int seed = GetValidSeed(false);
-            if (seed.ToString() != seedTxt.Text)
-            {
-                MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            int encryptLvl = GetValidEncryptLvl(true);
+        private Bitmap Unfk(int seed, int encryptLvl)
+        {           
             for (int i = encryptLvl - 1; i >= 0; i--)
             {
                 image = Unshuffle(image, i, seed);
             }
-            seedTxt.Text = seed.ToString();
-            encryptionLevelTxt.Text = encryptLvl.ToString();
-            pictureBox1.Image = ScaleImage(image, 996, 588);
+            return image;
+            
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -217,7 +209,16 @@ namespace Shuffle
 
         private void unfkBtn_Click(object sender, EventArgs e)
         {
-            Unfk();
+            int seed = GetValidSeed(false);
+            if (seed.ToString() != seedTxt.Text)
+            {
+                MessageBox.Show($"Invalid seed input.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int encryptLvl = GetValidEncryptLvl(true);
+            image = Unfk(seed,encryptLvl);
+
+            Display(seed, encryptLvl);
         }
 
         private Bitmap Unshuffle(Bitmap image, int offset, int seed)
@@ -252,8 +253,43 @@ namespace Shuffle
 
         private void sequencerBtn_Click(object sender, EventArgs e)
         {
-            SequencerForm myForm = new SequencerForm();
-            myForm.Show();
+            label1.Text = "";
+            seeds.Add(GetValidSeed(true));
+            encryptLvls.Add(GetValidEncryptLvl(true));
+            for (int i = 0; i < seeds.Count; i++)
+            {
+                label1.Text += seeds[i];
+                label1.Text += encryptLvls[i];
+            }
+        }
+
+        private void unfkSequenceBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you want to encrypt or decrypt?", "Encryption/Decryption", MessageBoxButtons.YesNoCancel);
+
+            if (result == DialogResult.Yes)
+            {
+                for (int i = 0; i < seeds.Count; i++)
+                {
+                    image = Shuffle(seeds[i], encryptLvls[i]);
+                }
+                
+            }
+            else if (result == DialogResult.No)
+            {
+                for (int i = seeds.Count - 1; i >= 0; i--)
+                {
+                    image = Unfk(seeds[i], encryptLvls[i]);
+                }                
+            }
+            Display(0, 0);
+        }
+
+        private void Display(int seed, int encryptLvl)
+        {
+            seedTxt.Text = seed.ToString();
+            encryptionLevelTxt.Text = encryptLvl.ToString();
+            pictureBox1.Image = ScaleImage(image, 996, 588);
         }
     }
 }

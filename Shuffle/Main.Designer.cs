@@ -38,6 +38,8 @@
             this.seedTxt = new System.Windows.Forms.TextBox();
             this.encryptionLevelTxt = new System.Windows.Forms.TextBox();
             this.sequencerBtn = new System.Windows.Forms.Button();
+            this.unfkSequenceBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +69,7 @@
             // 
             // fkItUpBtn
             // 
-            this.fkItUpBtn.Location = new System.Drawing.Point(33, 313);
+            this.fkItUpBtn.Location = new System.Drawing.Point(33, 348);
             this.fkItUpBtn.Name = "fkItUpBtn";
             this.fkItUpBtn.Size = new System.Drawing.Size(89, 45);
             this.fkItUpBtn.TabIndex = 2;
@@ -77,7 +79,7 @@
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(33, 469);
+            this.saveBtn.Location = new System.Drawing.Point(33, 450);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(89, 53);
             this.saveBtn.TabIndex = 3;
@@ -115,9 +117,28 @@
             this.sequencerBtn.Name = "sequencerBtn";
             this.sequencerBtn.Size = new System.Drawing.Size(89, 42);
             this.sequencerBtn.TabIndex = 7;
-            this.sequencerBtn.Text = "button1";
+            this.sequencerBtn.Text = "Add to sequencer";
             this.sequencerBtn.UseVisualStyleBackColor = true;
             this.sequencerBtn.Click += new System.EventHandler(this.sequencerBtn_Click);
+            // 
+            // unfkSequenceBtn
+            // 
+            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 289);
+            this.unfkSequenceBtn.Name = "unfkSequenceBtn";
+            this.unfkSequenceBtn.Size = new System.Drawing.Size(89, 42);
+            this.unfkSequenceBtn.TabIndex = 9;
+            this.unfkSequenceBtn.Text = "Execute sequence";
+            this.unfkSequenceBtn.UseVisualStyleBackColor = true;
+            this.unfkSequenceBtn.Click += new System.EventHandler(this.unfkSequenceBtn_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(691, 348);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "label1";
             // 
             // Main
             // 
@@ -126,6 +147,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1192, 742);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.unfkSequenceBtn);
             this.Controls.Add(this.sequencerBtn);
             this.Controls.Add(this.encryptionLevelTxt);
             this.Controls.Add(this.seedTxt);
@@ -156,6 +179,8 @@
         private System.Windows.Forms.TextBox seedTxt;
         private System.Windows.Forms.TextBox encryptionLevelTxt;
         private System.Windows.Forms.Button sequencerBtn;
+        private System.Windows.Forms.Button unfkSequenceBtn;
+        private System.Windows.Forms.Label label1;
     }
 }
 
