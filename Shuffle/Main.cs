@@ -1,5 +1,4 @@
 ﻿using AForge.Imaging.Filters;
-using ImageEncoding;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +9,7 @@ namespace Shuffle
 {
     public partial class Main : Form
     {
-        
+
         List<int> seeds = new List<int>();
         List<int> encryptLvls = new List<int>();
         Bitmap image = new Bitmap(100, 100);
@@ -43,8 +42,8 @@ namespace Shuffle
 
             int seed = GetValidSeed(true);
             int encryptLvl = GetValidEncryptLvl(true);
-                        
-            image = Shuffle(seed,encryptLvl);
+
+            image = Shuffle(seed, encryptLvl);
 
             Display(seed, encryptLvl);
         }
@@ -67,11 +66,11 @@ namespace Shuffle
             return scaledImage;
         }
 
-        private Bitmap Shuffle( int seed, int encryptLvl)
+        private Bitmap Shuffle(int seed, int encryptLvl)
         {
-            
 
-            for (int i = 0; i < encryptLvl; i++) 
+
+            for (int i = 0; i < encryptLvl; i++)
             {
                 List<Color> color = new List<Color>();
                 // Store the original pixel colors in a list
@@ -97,7 +96,7 @@ namespace Shuffle
                 }
             }
 
-            
+
             return image;
         }
 
@@ -160,8 +159,8 @@ namespace Shuffle
 
         public static List<Color> Deshuffle(List<Color> list, List<int> indexes)
         {
-            
-            for (int i = indexes.Count-1; i >=0; i--)
+
+            for (int i = indexes.Count - 1; i >= 0; i--)
             {
                 Color temp = list[i];
                 list[i] = list[indexes[i]];
@@ -171,13 +170,13 @@ namespace Shuffle
         }
 
         private Bitmap Unfk(int seed, int encryptLvl)
-        {           
+        {
             for (int i = encryptLvl - 1; i >= 0; i--)
             {
                 image = Unshuffle(image, i, seed);
             }
             return image;
-            
+
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -216,7 +215,7 @@ namespace Shuffle
                 return;
             }
             int encryptLvl = GetValidEncryptLvl(true);
-            image = Unfk(seed,encryptLvl);
+            image = Unfk(seed, encryptLvl);
 
             Display(seed, encryptLvl);
         }
@@ -273,14 +272,14 @@ namespace Shuffle
                 {
                     image = Shuffle(seeds[i], encryptLvls[i]);
                 }
-                
+
             }
             else if (result == DialogResult.No)
             {
                 for (int i = seeds.Count - 1; i >= 0; i--)
                 {
                     image = Unfk(seeds[i], encryptLvls[i]);
-                }                
+                }
             }
             Display(0, 0);
         }
