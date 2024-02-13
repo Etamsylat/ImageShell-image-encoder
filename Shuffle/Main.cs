@@ -20,8 +20,10 @@ namespace Shuffle
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
+
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -32,6 +34,14 @@ namespace Shuffle
             {
                 // Get the selected file path
                 image = new Bitmap(openFileDialog.FileName);
+                pictureBox1.Image = ScaleImage(image, 996, 588);
+            }
+            else if (Clipboard.ContainsImage())
+            {
+                Image imageClip = Clipboard.GetImage();
+
+                // Convert the image to a Bitmap
+                image = new Bitmap(imageClip);
                 pictureBox1.Image = ScaleImage(image, 996, 588);
             }
 
@@ -103,7 +113,7 @@ namespace Shuffle
         private int GetValidSeed(bool message)
         {
             int parsedSeed;
-            if (int.TryParse(seedTxt.Text, out parsedSeed) && parsedSeed >= 0 && parsedSeed + GetValidEncryptLvl(false) <= 2147483647)
+            if (int.TryParse(seedTxt.Text, out parsedSeed) && parsedSeed >= -2147483647 && parsedSeed + GetValidEncryptLvl(false) <= 2147483647)
             {
                 return parsedSeed;
             }
@@ -181,6 +191,11 @@ namespace Shuffle
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
+            SaveToFile();
+        }
+
+        private void SaveToFile()
+        {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp|All Files|*.*";
@@ -252,6 +267,7 @@ namespace Shuffle
 
         private void sequencerBtn_Click(object sender, EventArgs e)
         {
+            /*
             label1.Text = "";
             seeds.Add(GetValidSeed(true));
             encryptLvls.Add(GetValidEncryptLvl(true));
@@ -259,7 +275,8 @@ namespace Shuffle
             {
                 label1.Text += seeds[i];
                 label1.Text += encryptLvls[i];
-            }
+            }*/
+            ReadSequence(sqncTxt.Text);
         }
 
         private void unfkSequenceBtn_Click(object sender, EventArgs e)
@@ -289,6 +306,70 @@ namespace Shuffle
             seedTxt.Text = seed.ToString();
             encryptionLevelTxt.Text = encryptLvl.ToString();
             pictureBox1.Image = ScaleImage(image, 996, 588);
+        }
+
+
+        private void ReadSequence(string sequence)
+        {
+            seeds.Clear();
+            encryptLvls.Clear();
+            string[] substrings = sequence.Split(';');
+            label1.Text = "";
+            foreach (var item in substrings)
+            {
+                label1.Text += item;
+            }
+            
+
+            if (substrings.Length%2==1 || substrings.Length==0)
+            {
+                MessageBox.Show($"Invalid sequence", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                
+                for (int i = 0; i < substrings.Length; i++)
+                {
+                    if (!int.TryParse(substrings[i], out int result))
+                    {
+                        seeds.Clear();
+                        encryptLvls.Clear();
+                        MessageBox.Show($"Invalid sequence", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    else
+                    {
+                        if (i % 2 == 1)
+                        {
+                            if (int.Parse(substrings[i]) > 0)
+                            {
+                                encryptLvls.Add(int.Parse(substrings[i]));
+                            }
+                            else
+                            {
+                                seeds.Clear();
+                                encryptLvls.Clear();
+                                MessageBox.Show($"Invalid encryption level in sequence", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            
+                        }
+                        else
+                        {
+                            seeds.Add(int.Parse(substrings[i]));
+                            
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        private void copyBtn_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(image);
         }
     }
 }

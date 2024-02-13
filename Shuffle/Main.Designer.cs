@@ -40,6 +40,8 @@
             this.sequencerBtn = new System.Windows.Forms.Button();
             this.unfkSequenceBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.sqncTxt = new System.Windows.Forms.TextBox();
+            this.copyBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +58,7 @@
             // 
             this.fileGetBtn.Location = new System.Drawing.Point(33, 213);
             this.fileGetBtn.Name = "fileGetBtn";
-            this.fileGetBtn.Size = new System.Drawing.Size(89, 57);
+            this.fileGetBtn.Size = new System.Drawing.Size(89, 29);
             this.fileGetBtn.TabIndex = 1;
             this.fileGetBtn.Text = "Get file";
             this.fileGetBtn.UseVisualStyleBackColor = true;
@@ -69,7 +71,7 @@
             // 
             // fkItUpBtn
             // 
-            this.fkItUpBtn.Location = new System.Drawing.Point(33, 402);
+            this.fkItUpBtn.Location = new System.Drawing.Point(33, 349);
             this.fkItUpBtn.Name = "fkItUpBtn";
             this.fkItUpBtn.Size = new System.Drawing.Size(89, 45);
             this.fkItUpBtn.TabIndex = 2;
@@ -79,9 +81,9 @@
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(33, 513);
+            this.saveBtn.Location = new System.Drawing.Point(33, 465);
             this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(89, 53);
+            this.saveBtn.Size = new System.Drawing.Size(89, 35);
             this.saveBtn.TabIndex = 3;
             this.saveBtn.Text = "Save this s**t to file";
             this.saveBtn.UseVisualStyleBackColor = true;
@@ -89,7 +91,7 @@
             // 
             // unfkBtn
             // 
-            this.unfkBtn.Location = new System.Drawing.Point(33, 462);
+            this.unfkBtn.Location = new System.Drawing.Point(33, 400);
             this.unfkBtn.Name = "unfkBtn";
             this.unfkBtn.Size = new System.Drawing.Size(89, 45);
             this.unfkBtn.TabIndex = 4;
@@ -113,9 +115,9 @@
             // 
             // sequencerBtn
             // 
-            this.sequencerBtn.Location = new System.Drawing.Point(33, 286);
+            this.sequencerBtn.Location = new System.Drawing.Point(33, 248);
             this.sequencerBtn.Name = "sequencerBtn";
-            this.sequencerBtn.Size = new System.Drawing.Size(89, 42);
+            this.sequencerBtn.Size = new System.Drawing.Size(89, 35);
             this.sequencerBtn.TabIndex = 7;
             this.sequencerBtn.Text = "Add to sequencer";
             this.sequencerBtn.UseVisualStyleBackColor = true;
@@ -123,9 +125,9 @@
             // 
             // unfkSequenceBtn
             // 
-            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 348);
+            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 289);
             this.unfkSequenceBtn.Name = "unfkSequenceBtn";
-            this.unfkSequenceBtn.Size = new System.Drawing.Size(89, 42);
+            this.unfkSequenceBtn.Size = new System.Drawing.Size(89, 41);
             this.unfkSequenceBtn.TabIndex = 9;
             this.unfkSequenceBtn.Text = "Execute sequence";
             this.unfkSequenceBtn.UseVisualStyleBackColor = true;
@@ -134,11 +136,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(691, 348);
+            this.label1.Location = new System.Drawing.Point(30, 164);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 10;
             this.label1.Text = "label1";
+            // 
+            // sqncTxt
+            // 
+            this.sqncTxt.Location = new System.Drawing.Point(33, 187);
+            this.sqncTxt.Name = "sqncTxt";
+            this.sqncTxt.Size = new System.Drawing.Size(100, 20);
+            this.sqncTxt.TabIndex = 11;
+            // 
+            // copyBtn
+            // 
+            this.copyBtn.Location = new System.Drawing.Point(33, 507);
+            this.copyBtn.Name = "copyBtn";
+            this.copyBtn.Size = new System.Drawing.Size(89, 31);
+            this.copyBtn.TabIndex = 12;
+            this.copyBtn.Text = "Copy Image";
+            this.copyBtn.UseVisualStyleBackColor = true;
+            this.copyBtn.Click += new System.EventHandler(this.copyBtn_Click);
             // 
             // Main
             // 
@@ -147,6 +166,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1192, 614);
+            this.Controls.Add(this.copyBtn);
+            this.Controls.Add(this.sqncTxt);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.unfkSequenceBtn);
             this.Controls.Add(this.sequencerBtn);
@@ -181,6 +202,8 @@
         private System.Windows.Forms.Button sequencerBtn;
         private System.Windows.Forms.Button unfkSequenceBtn;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox sqncTxt;
+        private System.Windows.Forms.Button copyBtn;
     }
 }
 
