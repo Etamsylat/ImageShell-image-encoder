@@ -37,9 +37,7 @@
             this.unfkBtn = new System.Windows.Forms.Button();
             this.seedTxt = new System.Windows.Forms.TextBox();
             this.encryptionLevelTxt = new System.Windows.Forms.TextBox();
-            this.sequencerBtn = new System.Windows.Forms.Button();
             this.unfkSequenceBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.sqncTxt = new System.Windows.Forms.TextBox();
             this.copyBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -56,7 +54,7 @@
             // 
             // fileGetBtn
             // 
-            this.fileGetBtn.Location = new System.Drawing.Point(33, 213);
+            this.fileGetBtn.Location = new System.Drawing.Point(33, 281);
             this.fileGetBtn.Name = "fileGetBtn";
             this.fileGetBtn.Size = new System.Drawing.Size(89, 29);
             this.fileGetBtn.TabIndex = 1;
@@ -71,7 +69,7 @@
             // 
             // fkItUpBtn
             // 
-            this.fkItUpBtn.Location = new System.Drawing.Point(33, 349);
+            this.fkItUpBtn.Location = new System.Drawing.Point(33, 363);
             this.fkItUpBtn.Name = "fkItUpBtn";
             this.fkItUpBtn.Size = new System.Drawing.Size(89, 45);
             this.fkItUpBtn.TabIndex = 2;
@@ -91,7 +89,7 @@
             // 
             // unfkBtn
             // 
-            this.unfkBtn.Location = new System.Drawing.Point(33, 400);
+            this.unfkBtn.Location = new System.Drawing.Point(33, 414);
             this.unfkBtn.Name = "unfkBtn";
             this.unfkBtn.Size = new System.Drawing.Size(89, 45);
             this.unfkBtn.TabIndex = 4;
@@ -113,34 +111,15 @@
             this.encryptionLevelTxt.Size = new System.Drawing.Size(100, 20);
             this.encryptionLevelTxt.TabIndex = 6;
             // 
-            // sequencerBtn
-            // 
-            this.sequencerBtn.Location = new System.Drawing.Point(33, 248);
-            this.sequencerBtn.Name = "sequencerBtn";
-            this.sequencerBtn.Size = new System.Drawing.Size(89, 35);
-            this.sequencerBtn.TabIndex = 7;
-            this.sequencerBtn.Text = "Add to sequencer";
-            this.sequencerBtn.UseVisualStyleBackColor = true;
-            this.sequencerBtn.Click += new System.EventHandler(this.sequencerBtn_Click);
-            // 
             // unfkSequenceBtn
             // 
-            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 289);
+            this.unfkSequenceBtn.Location = new System.Drawing.Point(33, 316);
             this.unfkSequenceBtn.Name = "unfkSequenceBtn";
             this.unfkSequenceBtn.Size = new System.Drawing.Size(89, 41);
             this.unfkSequenceBtn.TabIndex = 9;
             this.unfkSequenceBtn.Text = "Execute sequence";
             this.unfkSequenceBtn.UseVisualStyleBackColor = true;
             this.unfkSequenceBtn.Click += new System.EventHandler(this.unfkSequenceBtn_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 164);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "label1";
             // 
             // sqncTxt
             // 
@@ -168,9 +147,7 @@
             this.ClientSize = new System.Drawing.Size(1192, 614);
             this.Controls.Add(this.copyBtn);
             this.Controls.Add(this.sqncTxt);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.unfkSequenceBtn);
-            this.Controls.Add(this.sequencerBtn);
             this.Controls.Add(this.encryptionLevelTxt);
             this.Controls.Add(this.seedTxt);
             this.Controls.Add(this.unfkBtn);
@@ -199,9 +176,7 @@
         private System.Windows.Forms.Button unfkBtn;
         private System.Windows.Forms.TextBox seedTxt;
         private System.Windows.Forms.TextBox encryptionLevelTxt;
-        private System.Windows.Forms.Button sequencerBtn;
         private System.Windows.Forms.Button unfkSequenceBtn;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox sqncTxt;
         private System.Windows.Forms.Button copyBtn;
     }

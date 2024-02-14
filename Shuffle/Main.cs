@@ -1,6 +1,7 @@
 ﻿using AForge.Imaging.Filters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -49,13 +50,18 @@ namespace Shuffle
 
         private void fkItUpBtn_Click(object sender, EventArgs e)
         {
-
+            
             int seed = GetValidSeed(true);
+            
             int encryptLvl = GetValidEncryptLvl(true);
+            
 
             image = Shuffle(seed, encryptLvl);
-
+            
             Display(seed, encryptLvl);
+            
+            
+            
         }
 
         private Bitmap ScaleImage(Bitmap originalImage, int maxWidth, int maxHeight)
@@ -78,35 +84,40 @@ namespace Shuffle
 
         private Bitmap Shuffle(int seed, int encryptLvl)
         {
+            Stopwatch time = new Stopwatch();
+            time.Start();
+            Console.WriteLine(time.ElapsedMilliseconds);
+            List<Color> color = new List<Color>();
 
-
-            for (int i = 0; i < encryptLvl; i++)
+            // Store the original pixel colors in a list
+            for (int x = 0; x < image.Width; x++)
             {
-                List<Color> color = new List<Color>();
-                // Store the original pixel colors in a list
-                for (int x = 0; x < image.Width; x++)
+                for (int y = 0; y < image.Height; y++)
                 {
-                    for (int y = 0; y < image.Height; y++)
-                    {
-                        color.Add(image.GetPixel(x, y));
-                    }
-                }
-
-                // Shuffle the colors
-                ShuffleList(color, Generate(color.Count, seed + i));
-
-                // Update the image with the shuffled colors
-                int index = 0;
-                for (int x = 0; x < image.Width; x++)
-                {
-                    for (int y = 0; y < image.Height; y++)
-                    {
-                        image.SetPixel(x, y, color[index++]);
-                    }
+                    color.Add(image.GetPixel(x, y));
                 }
             }
+            Console.WriteLine(time.ElapsedMilliseconds);
+            
+            for (int i = 0; i < encryptLvl; i++)
+            {
+                
+                // Shuffle the colors
+                ShuffleList(color, Generate(color.Count, seed + i));
+                Console.WriteLine(time.ElapsedMilliseconds);
+                // Update the image with the shuffled colors
+                
+            }
 
-
+            int index = 0;
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    image.SetPixel(x, y, color[index++]);
+                }
+            }
+            Console.WriteLine(time.ElapsedMilliseconds);
             return image;
         }
 
@@ -181,10 +192,8 @@ namespace Shuffle
 
         private Bitmap Unfk(int seed, int encryptLvl)
         {
-            for (int i = encryptLvl - 1; i >= 0; i--)
-            {
-                image = Unshuffle(image, i, seed);
-            }
+            
+            image = Unshuffle(image, seed,encryptLvl);
             return image;
 
         }
@@ -235,7 +244,7 @@ namespace Shuffle
             Display(seed, encryptLvl);
         }
 
-        private Bitmap Unshuffle(Bitmap image, int offset, int seed)
+        private Bitmap Unshuffle(Bitmap image,  int seed, int encryptLevel)
         {
             List<Color> color = new List<Color>();
 
@@ -248,9 +257,12 @@ namespace Shuffle
                 }
             }
 
-
+            for (int i = encryptLevel - 1; i >= 0; i--)
+            {
+                Deshuffle(color, Generate(color.Count, seed + i));
+            }
             // Unshuffle the colors
-            Deshuffle(color, Generate(color.Count, seed + offset));
+            
 
             // Update the image with the unshuffled colors
             int index = 0;
@@ -265,22 +277,11 @@ namespace Shuffle
             return image;
         }
 
-        private void sequencerBtn_Click(object sender, EventArgs e)
-        {
-            /*
-            label1.Text = "";
-            seeds.Add(GetValidSeed(true));
-            encryptLvls.Add(GetValidEncryptLvl(true));
-            for (int i = 0; i < seeds.Count; i++)
-            {
-                label1.Text += seeds[i];
-                label1.Text += encryptLvls[i];
-            }*/
-            ReadSequence(sqncTxt.Text);
-        }
+       
 
         private void unfkSequenceBtn_Click(object sender, EventArgs e)
         {
+            ReadSequence(sqncTxt.Text);
             DialogResult result = MessageBox.Show("Do you want to encrypt or decrypt?", "Encryption/Decryption", MessageBoxButtons.YesNoCancel);
 
             if (result == DialogResult.Yes)
@@ -314,11 +315,7 @@ namespace Shuffle
             seeds.Clear();
             encryptLvls.Clear();
             string[] substrings = sequence.Split(';');
-            label1.Text = "";
-            foreach (var item in substrings)
-            {
-                label1.Text += item;
-            }
+            
             
 
             if (substrings.Length%2==1 || substrings.Length==0)
