@@ -14,6 +14,8 @@ namespace Shuffle
         List<int> seeds = new List<int>();
         List<int> encryptLvls = new List<int>();
         Bitmap image = new Bitmap(100, 100);
+        List<Color> color = new List<Color>();
+
         public Main()
         {
             InitializeComponent();
@@ -54,10 +56,10 @@ namespace Shuffle
             int seed = GetValidSeed(true);
             
             int encryptLvl = GetValidEncryptLvl(true);
-            
 
-            image = Shuffle(seed, encryptLvl);
-            
+            color = ColorListGet();
+            Shuffle(seed, encryptLvl);
+            SetImage();
             Display(seed, encryptLvl);
             
             
@@ -82,33 +84,21 @@ namespace Shuffle
             return scaledImage;
         }
 
-        private Bitmap Shuffle(int seed, int encryptLvl)
+        private List<Color> ColorListGet()
         {
-            Stopwatch time = new Stopwatch();
-            time.Start();
-            Console.WriteLine(time.ElapsedMilliseconds);
-            List<Color> color = new List<Color>();
-
-            // Store the original pixel colors in a list
+            List<Color> holder = new List<Color>();
             for (int x = 0; x < image.Width; x++)
             {
                 for (int y = 0; y < image.Height; y++)
                 {
-                    color.Add(image.GetPixel(x, y));
+                    holder.Add(image.GetPixel(x, y));
                 }
             }
-            Console.WriteLine(time.ElapsedMilliseconds);
-            
-            for (int i = 0; i < encryptLvl; i++)
-            {
-                
-                // Shuffle the colors
-                ShuffleList(color, Generate(color.Count, seed + i));
-                Console.WriteLine(time.ElapsedMilliseconds);
-                // Update the image with the shuffled colors
-                
-            }
+            return holder;
+        }
 
+        private void SetImage()
+        {
             int index = 0;
             for (int x = 0; x < image.Width; x++)
             {
@@ -117,8 +107,49 @@ namespace Shuffle
                     image.SetPixel(x, y, color[index++]);
                 }
             }
-            Console.WriteLine(time.ElapsedMilliseconds);
-            return image;
+        }
+
+        private void Shuffle(int seed, int encryptLvl)
+        {
+            Stopwatch time = new Stopwatch();
+            time.Start();
+
+            // Store the original pixel colors in a list
+                                 
+            for (int i = 0; i < encryptLvl; i++)
+            {
+                
+                // Shuffle the colors
+                ShuffleList(color, Generate(color.Count, seed + i));
+                
+                // Update the image with the shuffled colors
+                
+            }
+            
+            
+            Console.WriteLine("Encode: "+ time.ElapsedMilliseconds);
+            
+        }
+
+        private void Unshuffle(Bitmap image, int seed, int encryptLevel)
+        {
+            
+            Stopwatch time = new Stopwatch();
+            time.Start();
+
+            // Store the shuffled pixel colors in a list
+            
+
+            for (int i = encryptLevel - 1; i >= 0; i--)
+            {
+                Deshuffle(color, Generate(color.Count, seed + i));
+            }
+            // Unshuffle the colors
+
+
+            
+            Console.WriteLine("Decryption: " + time.ElapsedMilliseconds);
+            
         }
 
         private int GetValidSeed(bool message)
@@ -190,13 +221,7 @@ namespace Shuffle
             return list;
         }
 
-        private Bitmap Unfk(int seed, int encryptLvl)
-        {
-            
-            image = Unshuffle(image, seed,encryptLvl);
-            return image;
-
-        }
+        
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
@@ -239,56 +264,24 @@ namespace Shuffle
                 return;
             }
             int encryptLvl = GetValidEncryptLvl(true);
-            image = Unfk(seed, encryptLvl);
 
+            color = ColorListGet();
+            Unshuffle(image, seed, encryptLvl);
+            SetImage();
             Display(seed, encryptLvl);
         }
 
-        private Bitmap Unshuffle(Bitmap image,  int seed, int encryptLevel)
-        {
-            List<Color> color = new List<Color>();
-
-            // Store the shuffled pixel colors in a list
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    color.Add(image.GetPixel(x, y));
-                }
-            }
-
-            for (int i = encryptLevel - 1; i >= 0; i--)
-            {
-                Deshuffle(color, Generate(color.Count, seed + i));
-            }
-            // Unshuffle the colors
-            
-
-            // Update the image with the unshuffled colors
-            int index = 0;
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    image.SetPixel(x, y, color[index++]);
-                }
-            }
-
-            return image;
-        }
-
-       
 
         private void unfkSequenceBtn_Click(object sender, EventArgs e)
         {
             ReadSequence(sqncTxt.Text);
             DialogResult result = MessageBox.Show("Do you want to encrypt or decrypt?", "Encryption/Decryption", MessageBoxButtons.YesNoCancel);
-
+            color = ColorListGet();
             if (result == DialogResult.Yes)
             {
                 for (int i = 0; i < seeds.Count; i++)
                 {
-                    image = Shuffle(seeds[i], encryptLvls[i]);
+                    Shuffle(seeds[i], encryptLvls[i]);
                 }
 
             }
@@ -296,9 +289,10 @@ namespace Shuffle
             {
                 for (int i = seeds.Count - 1; i >= 0; i--)
                 {
-                    image = Unfk(seeds[i], encryptLvls[i]);
+                    Unshuffle(image, seeds[i], encryptLvls[i]);
                 }
             }
+            SetImage();
             Display(0, 0);
         }
 
