@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Shuffle
 {
@@ -16,10 +17,14 @@ namespace Shuffle
         Bitmap image = new Bitmap(100, 100);
         List<Color> color = new List<Color>();
         bool SequenceGood = false;
+        bool isImageIn = false;
 
         public Main()
         {
+
             InitializeComponent();
+            this.KeyPress +=
+                new KeyPressEventHandler(Main_KeyPress);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -27,7 +32,18 @@ namespace Shuffle
 
         }
 
-
+        private void Main_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar=='c')
+            {
+                Clipboard.SetImage(image);
+                MessageBox.Show("Copied image to clipboard","Image Copied",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            else if (e.KeyChar == 'v' && Clipboard.ContainsImage())
+            {
+                PasteImage();
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -36,22 +52,18 @@ namespace Shuffle
             openFileDialog.FilterIndex = 1; // Default filter is the first one in the list
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                isImageIn = true;
                 // Get the selected file path
                 image = new Bitmap(openFileDialog.FileName);
                 displayBox.Image = ScaleImage(image, displayBox.Width, displayBox.Height);
             }
-            else if (Clipboard.ContainsImage())
+            else 
             {
-                Image imageClip = Clipboard.GetImage();
-
-                // Convert the image to a Bitmap
-                image = new Bitmap(imageClip);
-                displayBox.Image = ScaleImage(image, displayBox.Width, displayBox.Height);
+                PasteImage();
             }
 
+
         }
-
-
 
         private Bitmap ScaleImage(Bitmap originalImage, int maxWidth, int maxHeight)
         {
@@ -96,6 +108,18 @@ namespace Shuffle
             }
         }
 
+        private void PasteImage()
+        {
+            if (Clipboard.ContainsImage())
+            {
+                Image imageClip = Clipboard.GetImage();
+                isImageIn = true;
+                // Convert the image to a Bitmap
+                image = new Bitmap(imageClip);
+                displayBox.Image = ScaleImage(image, displayBox.Width, displayBox.Height);
+            }
+        }
+
         private void Shuffle(int seed, int encryptLvl)
         {
 
@@ -137,10 +161,6 @@ namespace Shuffle
 
         }
 
-
-
-
-
         public static List<int> Generate(int length, int seed)
         {
             Random random = new Random(seed);
@@ -175,8 +195,6 @@ namespace Shuffle
             return list;
         }
 
-
-
         private void saveBtn_Click(object sender, EventArgs e)
         {
             SaveToFile();
@@ -209,9 +227,6 @@ namespace Shuffle
             }
         }
 
-
-
-
         private void unfkSequenceBtn_Click(object sender, EventArgs e)
         {
             ReadSequence(sqncTxt.Text);
@@ -234,7 +249,6 @@ namespace Shuffle
 
             displayBox.Image = ScaleImage(image, 996, 588);
         }
-
 
         private void ReadSequence(string sequence)
         {
@@ -312,6 +326,11 @@ namespace Shuffle
             }
             SetImage();
             Display(0, 0);
+        }
+
+        private void pasteBtn_Click(object sender, EventArgs e)
+        {
+            PasteImage();
         }
     }
 }

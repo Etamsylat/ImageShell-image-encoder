@@ -37,6 +37,7 @@
             this.sqncTxt = new System.Windows.Forms.TextBox();
             this.copyBtn = new System.Windows.Forms.Button();
             this.encodeBtn = new System.Windows.Forms.Button();
+            this.pasteBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.displayBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
@@ -115,6 +116,7 @@
             // 
             // sqncTxt
             // 
+            this.sqncTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.sqncTxt.Font = new System.Drawing.Font("Falling Sky", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.sqncTxt.Location = new System.Drawing.Point(58, 66);
             this.sqncTxt.Name = "sqncTxt";
@@ -160,12 +162,32 @@
             this.encodeBtn.UseVisualStyleBackColor = true;
             this.encodeBtn.Click += new System.EventHandler(this.encodeBtn_Click);
             // 
+            // pasteBtn
+            // 
+            this.pasteBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pasteBtn.BackgroundImage")));
+            this.pasteBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pasteBtn.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.pasteBtn.FlatAppearance.BorderSize = 0;
+            this.pasteBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.pasteBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.pasteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.pasteBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.pasteBtn.ForeColor = System.Drawing.Color.White;
+            this.pasteBtn.Location = new System.Drawing.Point(57, 481);
+            this.pasteBtn.Name = "pasteBtn";
+            this.pasteBtn.Size = new System.Drawing.Size(202, 57);
+            this.pasteBtn.TabIndex = 14;
+            this.pasteBtn.Text = "Paste Image";
+            this.pasteBtn.UseVisualStyleBackColor = true;
+            this.pasteBtn.Click += new System.EventHandler(this.pasteBtn_Click);
+            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1284, 561);
+            this.Controls.Add(this.pasteBtn);
             this.Controls.Add(this.encodeBtn);
             this.Controls.Add(this.copyBtn);
             this.Controls.Add(this.sqncTxt);
@@ -176,6 +198,7 @@
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Image Encrypter";
@@ -197,6 +220,7 @@
         private System.Windows.Forms.TextBox sqncTxt;
         private System.Windows.Forms.Button copyBtn;
         private System.Windows.Forms.Button encodeBtn;
+        private System.Windows.Forms.Button pasteBtn;
     }
 }
 
