@@ -63,7 +63,7 @@
             this.fileGetBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.fileGetBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.fileGetBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.fileGetBtn.Location = new System.Drawing.Point(58, 166);
+            this.fileGetBtn.Location = new System.Drawing.Point(44, 156);
             this.fileGetBtn.Name = "fileGetBtn";
             this.fileGetBtn.Size = new System.Drawing.Size(202, 57);
             this.fileGetBtn.TabIndex = 1;
@@ -87,7 +87,7 @@
             this.saveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.saveBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.saveBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.saveBtn.Location = new System.Drawing.Point(58, 355);
+            this.saveBtn.Location = new System.Drawing.Point(43, 471);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(202, 57);
             this.saveBtn.TabIndex = 3;
@@ -106,7 +106,7 @@
             this.unfkSequenceBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.unfkSequenceBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.unfkSequenceBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.unfkSequenceBtn.Location = new System.Drawing.Point(58, 292);
+            this.unfkSequenceBtn.Location = new System.Drawing.Point(44, 282);
             this.unfkSequenceBtn.Name = "unfkSequenceBtn";
             this.unfkSequenceBtn.Size = new System.Drawing.Size(202, 57);
             this.unfkSequenceBtn.TabIndex = 9;
@@ -118,11 +118,15 @@
             // 
             this.sqncTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.sqncTxt.Font = new System.Drawing.Font("Falling Sky", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.sqncTxt.Location = new System.Drawing.Point(58, 66);
+            this.sqncTxt.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.sqncTxt.Location = new System.Drawing.Point(44, 87);
             this.sqncTxt.Name = "sqncTxt";
             this.sqncTxt.Size = new System.Drawing.Size(201, 34);
             this.sqncTxt.TabIndex = 11;
+            this.sqncTxt.Text = "Enter seed...";
             this.sqncTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sqncTxt.Enter += new System.EventHandler(this.sqncTxt_Enter);
+            this.sqncTxt.Leave += new System.EventHandler(this.sqncTxt_Leave);
             // 
             // copyBtn
             // 
@@ -135,7 +139,7 @@
             this.copyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.copyBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.copyBtn.ForeColor = System.Drawing.Color.White;
-            this.copyBtn.Location = new System.Drawing.Point(58, 418);
+            this.copyBtn.Location = new System.Drawing.Point(44, 345);
             this.copyBtn.Name = "copyBtn";
             this.copyBtn.Size = new System.Drawing.Size(202, 57);
             this.copyBtn.TabIndex = 12;
@@ -154,7 +158,7 @@
             this.encodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.encodeBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.encodeBtn.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.encodeBtn.Location = new System.Drawing.Point(58, 229);
+            this.encodeBtn.Location = new System.Drawing.Point(44, 219);
             this.encodeBtn.Name = "encodeBtn";
             this.encodeBtn.Size = new System.Drawing.Size(202, 57);
             this.encodeBtn.TabIndex = 13;
@@ -173,7 +177,7 @@
             this.pasteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.pasteBtn.Font = new System.Drawing.Font("Falling Sky", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.pasteBtn.ForeColor = System.Drawing.Color.White;
-            this.pasteBtn.Location = new System.Drawing.Point(57, 481);
+            this.pasteBtn.Location = new System.Drawing.Point(43, 408);
             this.pasteBtn.Name = "pasteBtn";
             this.pasteBtn.Size = new System.Drawing.Size(202, 57);
             this.pasteBtn.TabIndex = 14;
@@ -203,6 +207,7 @@
             this.Name = "Main";
             this.Text = "Image Encrypter";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.displayBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.ResumeLayout(false);

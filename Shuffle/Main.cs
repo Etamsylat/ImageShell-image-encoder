@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Shuffle
 {
@@ -18,13 +19,13 @@ namespace Shuffle
         List<Color> color = new List<Color>();
         bool SequenceGood = false;
         bool isImageIn = false;
+        bool isPlaceholderTextDisplayed = true;
 
         public Main()
         {
 
             InitializeComponent();
-            this.KeyPress +=
-                new KeyPressEventHandler(Main_KeyPress);
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,18 +33,9 @@ namespace Shuffle
 
         }
 
-        private void Main_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar=='c')
-            {
-                Clipboard.SetImage(image);
-                MessageBox.Show("Copied image to clipboard","Image Copied",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            }
-            else if (e.KeyChar == 'v' && Clipboard.ContainsImage())
-            {
-                PasteImage();
-            }
-        }
+        
+
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -331,6 +323,45 @@ namespace Shuffle
         private void pasteBtn_Click(object sender, EventArgs e)
         {
             PasteImage();
+        }
+
+        private void Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Check if Ctrl key is pressed along with another key
+            if (e.Control)
+            {
+                // Check if Ctrl + C is pressed
+                if (e.KeyCode == Keys.C && isImageIn)
+                {
+                    Clipboard.SetImage(image);
+                    
+                }
+                // Check if Ctrl + V is pressed
+                else if (e.KeyCode == Keys.V)
+                {
+                    PasteImage();
+                }
+            }
+        }
+
+        private void sqncTxt_Enter(object sender, EventArgs e)
+        {
+            if (isPlaceholderTextDisplayed)
+            {
+                sqncTxt.Text = "";
+                sqncTxt.ForeColor = SystemColors.WindowText; // or any other color you prefer
+                isPlaceholderTextDisplayed = false;
+            }
+        }
+
+        private void sqncTxt_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(sqncTxt.Text))
+            {
+                sqncTxt.Text = "Enter seed...";
+                sqncTxt.ForeColor = Color.Gray;
+                isPlaceholderTextDisplayed = true;
+            }
         }
     }
 }
