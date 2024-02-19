@@ -45,6 +45,7 @@
             // displayBox
             // 
             this.displayBox.BackColor = System.Drawing.Color.Transparent;
+            this.displayBox.Image = ((System.Drawing.Image)(resources.GetObject("displayBox.Image")));
             this.displayBox.Location = new System.Drawing.Point(295, 12);
             this.displayBox.Name = "displayBox";
             this.displayBox.Size = new System.Drawing.Size(960, 540);
@@ -119,7 +120,7 @@
             this.sqncTxt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.sqncTxt.Font = new System.Drawing.Font("Falling Sky", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.sqncTxt.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.sqncTxt.Location = new System.Drawing.Point(44, 87);
+            this.sqncTxt.Location = new System.Drawing.Point(44, 63);
             this.sqncTxt.Name = "sqncTxt";
             this.sqncTxt.Size = new System.Drawing.Size(201, 34);
             this.sqncTxt.TabIndex = 11;
@@ -205,7 +206,7 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "Main";
-            this.Text = "Image Encrypter";
+            this.Text = "Image Shell";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.displayBox)).EndInit();

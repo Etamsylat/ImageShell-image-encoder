@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -30,7 +31,7 @@ namespace Shuffle
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         
@@ -187,6 +188,8 @@ namespace Shuffle
             return list;
         }
 
+        
+
         private void saveBtn_Click(object sender, EventArgs e)
         {
             SaveToFile();
@@ -221,19 +224,22 @@ namespace Shuffle
 
         private void unfkSequenceBtn_Click(object sender, EventArgs e)
         {
-            ReadSequence(sqncTxt.Text);
-            if (!SequenceGood)
+            if (isImageIn)
             {
-                return;
-            }
-            color = ColorListGet();
-            for (int i = seeds.Count - 1; i >= 0; i--)
-            {
-                Unshuffle(image, seeds[i], encryptLvls[i]);
-            }
+                ReadSequence(sqncTxt.Text);
+                if (!SequenceGood)
+                {
+                    return;
+                }
+                color = ColorListGet();
+                for (int i = seeds.Count - 1; i >= 0; i--)
+                {
+                    Unshuffle(image, seeds[i], encryptLvls[i]);
+                }
 
-            SetImage();
-            Display(0, 0);
+                SetImage();
+                Display(0, 0);
+            }
         }
 
         private void Display(int seed, int encryptLvl)
@@ -306,19 +312,25 @@ namespace Shuffle
 
         private void encodeBtn_Click(object sender, EventArgs e)
         {
-            ReadSequence(sqncTxt.Text);
-            if (!SequenceGood)
+            if (isImageIn)
             {
-                return;
+                ReadSequence(sqncTxt.Text);
+                if (!SequenceGood)
+                {
+                    return;
+                }
+                color = ColorListGet();
+                for (int i = 0; i < seeds.Count; i++)
+                {
+                    Shuffle(seeds[i], encryptLvls[i]);
+                }
+
+                SetImage();
+                Display(0, 0);
             }
-            color = ColorListGet();
-            for (int i = 0; i < seeds.Count; i++)
-            {
-                Shuffle(seeds[i], encryptLvls[i]);
-            }
-            SetImage();
-            Display(0, 0);
         }
+
+        
 
         private void pasteBtn_Click(object sender, EventArgs e)
         {
@@ -363,5 +375,7 @@ namespace Shuffle
                 isPlaceholderTextDisplayed = true;
             }
         }
+
+        
     }
 }
