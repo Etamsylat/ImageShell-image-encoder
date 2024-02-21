@@ -38,6 +38,7 @@
             this.copyBtn = new System.Windows.Forms.Button();
             this.encodeBtn = new System.Windows.Forms.Button();
             this.pasteBtn = new System.Windows.Forms.Button();
+            this.infoLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.displayBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
@@ -186,12 +187,24 @@
             this.pasteBtn.UseVisualStyleBackColor = true;
             this.pasteBtn.Click += new System.EventHandler(this.pasteBtn_Click);
             // 
+            // infoLbl
+            // 
+            this.infoLbl.AutoSize = true;
+            this.infoLbl.BackColor = System.Drawing.Color.Transparent;
+            this.infoLbl.Font = new System.Drawing.Font("Falling Sky", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.infoLbl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.infoLbl.Location = new System.Drawing.Point(39, 111);
+            this.infoLbl.Name = "infoLbl";
+            this.infoLbl.Size = new System.Drawing.Size(0, 28);
+            this.infoLbl.TabIndex = 15;
+            // 
             // Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1284, 561);
+            this.Controls.Add(this.infoLbl);
             this.Controls.Add(this.pasteBtn);
             this.Controls.Add(this.encodeBtn);
             this.Controls.Add(this.copyBtn);
@@ -227,6 +240,7 @@
         private System.Windows.Forms.Button copyBtn;
         private System.Windows.Forms.Button encodeBtn;
         private System.Windows.Forms.Button pasteBtn;
+        private System.Windows.Forms.Label infoLbl;
     }
 }
 
