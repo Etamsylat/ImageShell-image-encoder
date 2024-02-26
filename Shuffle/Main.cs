@@ -43,32 +43,35 @@ namespace Shuffle
         private async void button1_Click(object sender, EventArgs e)
         {
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp|All Files (*.*)|*.*";
-            openFileDialog.FilterIndex = 1; // Default filter is the first one in the list
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (!isCoding)
             {
-                isRead = false;
-                isImageIn = true;
-                // Get the selected file path
-                image = new Bitmap(openFileDialog.FileName);
-                displayBox.Image = ScaleImage(image, displayBox.Width, displayBox.Height);
-                infoLbl.Text = "Reading Image...";
-                await Task.Run(() =>
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp|All Files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1; // Default filter is the first one in the list
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    color.Clear();
-                    for (int x = 0; x < image.Width; x++)
+                    isRead = false;
+                    isImageIn = true;
+                    // Get the selected file path
+                    image = new Bitmap(openFileDialog.FileName);
+                    displayBox.Image = ScaleImage(image, displayBox.Width, displayBox.Height);
+                    infoLbl.Text = "Reading Image...";
+                    await Task.Run(() =>
                     {
-                        for (int y = 0; y < image.Height; y++)
+                        color.Clear();
+                        for (int x = 0; x < image.Width; x++)
                         {
-                            color.Add(image.GetPixel(x, y));
+                            for (int y = 0; y < image.Height; y++)
+                            {
+                                color.Add(image.GetPixel(x, y));
+                            }
                         }
-                    }
-                    Console.WriteLine("FinishedReading");
-                    isRead = true;
-                    return;
-                });
-                infoLbl.Text = "";
+                        Console.WriteLine("FinishedReading");
+                        isRead = true;
+                        return;
+                    });
+                    infoLbl.Text = "";
+                }
             }
 
 
@@ -227,7 +230,10 @@ namespace Shuffle
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            SaveToFile();
+            if (!isCoding)
+            {
+                SaveToFile();
+            }
         }
 
         private void SaveToFile()
@@ -261,21 +267,24 @@ namespace Shuffle
         {
             Stopwatch time = new Stopwatch();
             time.Start();
-            
+
 
 
             if (isImageIn && isRead && !isCoding)
             {
-
+                ReadSequence(sqncTxt.Text);
+                if (!SequenceGood)
+                {
+                    return;
+                }
                 infoLbl.Text = "Decoding...";
+                isCoding = true;
                 await Task.Run(() =>
                 {
-                    isCoding = true;
-                    ReadSequence(sqncTxt.Text);
-                    if (!SequenceGood)
-                    {
-                        return;
-                    }
+                    
+                    
+                    
+                    
                     //color = ColorListGet();
                     for (int i = seeds.Count - 1; i >= 0; i--)
                     {
@@ -286,7 +295,7 @@ namespace Shuffle
                     Display(0, 0);
                     Console.WriteLine(time.ElapsedMilliseconds);
                     isCoding = false;
-                    
+
                     return;
                 });
                 infoLbl.Text = "";
@@ -367,28 +376,33 @@ namespace Shuffle
             time.Start();
             if (isImageIn && isRead && !isCoding)
             {
+                ReadSequence(sqncTxt.Text);
+                if (!SequenceGood)
+                {
+                    return;
+                }
                 infoLbl.Text = "Encoding...";
+                isCoding = true;
                 await Task.Run(() =>
                 {
+
                     
-                    isCoding = true;
-                    ReadSequence(sqncTxt.Text);
-                    if (!SequenceGood)
-                    {
-                        return;
-                    }
+                    
+                    
                     //color = ColorListGet();
                     for (int i = 0; i < seeds.Count; i++)
                     {
                         Shuffle(seeds[i], encryptLvls[i]);
                     }
 
+
+
                     SetImage();
                     Display(0, 0);
 
                     Console.WriteLine(time.ElapsedMilliseconds);
                     isCoding = false;
-                    
+
                     return;
                 });
                 infoLbl.Text = "";
@@ -400,7 +414,10 @@ namespace Shuffle
 
         private void pasteBtn_Click(object sender, EventArgs e)
         {
-            PasteImage();
+            if (!isCoding)
+            {
+                PasteImage();
+            }
         }
 
         private void Main_KeyDown(object sender, KeyEventArgs e)
@@ -441,6 +458,9 @@ namespace Shuffle
                 isPlaceholderTextDisplayed = true;
             }
         }
+
+        
+        
 
 
     }
